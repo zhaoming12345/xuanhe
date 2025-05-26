@@ -1,43 +1,29 @@
 # 项目介绍
 这是一个自制的操作系统名为“xuanhe”。
 
-## 使用方法
+## 编译要求
 
-### 真机启动
-1. 使用NASM编译MBR: `nasm -f bin mbr.asm -o mbr.bin`
-2. 将mbr.bin写入U盘或硬盘的第一个扇区:
-   - Windows: 使用`dd for Windows`工具:
-     ```
-     dd if=mbr.bin of=\\?\Device\HarddiskX\Partition0 bs=512 count=1
-     ```
-     其中HarddiskX是目标磁盘号，可通过`diskpart`命令查看
-   - Linux/macOS: 使用dd命令:
-     ```
-     sudo dd if=mbr.bin of=/dev/sdX bs=512 count=1
-     ```
-3. 设置BIOS从该设备启动
+- NASM 汇编器
+- GCC 编译器（支持32位编译）
+- GNU Make
 
-### Windows模拟器
-1. 安装QEMU:
-   - 手动下载安装包
-2. 编译并运行:
-   ```
-   nasm -f bin mbr.asm -o mbr.bin
-   qemu-system-x86_64 -drive format=raw,file=mbr.bin
-   ```
+## 编译步骤
 
-### macOS模拟器
-1. 安装QEMU: `brew install qemu`
-2. 编译并运行:
-   ```
-   nasm -f bin mbr.asm -o mbr.bin
-   qemu-system-x86_64 -drive format=raw,file=mbr.bin
-   ```
+```bash
+make
+```
 
-### Linux模拟器
-1. 安装QEMU: `sudo apt install qemu-system-x86`
-2. 编译并运行:
-   ```
-   nasm -f bin mbr.asm -o mbr.bin
-   qemu-system-x86_64 -drive format=raw,file=mbr.bin
-   ```
+## 运行方法
+
+使用 QEMU 运行：
+
+```bash
+qemu-system-i386 -hda os.img
+```
+
+## 文件说明
+
+- mbr.asm: 主引导记录代码
+- kernel.c: 内核代码
+- kernel.ld: 链接脚本
+- Makefile: 构建脚本
